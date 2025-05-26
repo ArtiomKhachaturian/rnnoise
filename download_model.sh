@@ -5,8 +5,12 @@ hash=`cat model_version`
 model=rnnoise_data-$hash.tar.gz
 
 if [ ! -f $model ]; then
-        echo "Downloading latest model"
-        wget https://media.xiph.org/rnnoise/models/$model
+        echo "Downloading latest model: $model"
+        if command -v wget >/dev/null 2>&1; then
+            wget https://media.xiph.org/rnnoise/models/$model
+        else
+            curl -L -O https://media.xiph.org/rnnoise/models/$model
+        fi
 fi
 
 if command -v sha256sum
